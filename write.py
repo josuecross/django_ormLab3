@@ -34,6 +34,11 @@ def populate_instructors():
                                   full_time=True,
                                   total_learners=2002)
     instructor_peter.save()
+
+    instructor_daniel= Instructor(first_name="Daniel", last_name="Cruz", dob = date(2002, 2, 11), full_time="True",total_learners=292 )
+    instructor_daniel.save()
+
+
     print("Instructors objects saved... ")
 
 
@@ -59,6 +64,9 @@ def populate_learners():
                            occupation='developer',
                            social_link='https://www.linkedin.com/john/')
     learner_john.save()
+
+    learner_rocio = Learner(first_name="Rocio", last_name="Lopez", dob = date(1968, 12, 14), occupation="student", social_link= "https://www.linkedin.com/john/")
+    learner_rocio.save()
     print("Learners objects saved... ")
 
 
@@ -89,6 +97,9 @@ def populate_courses():
                            description="Learn core concepts of Python and obtain hands-on "
                                        "experience via a capstone project")
     course_python.save()
+
+    course_data_base = Course(name= "Instroduction to Databases", description="Basis about databases")
+    course_data_base.save()
     print("Course objects saved... ")
 
 def populate_course_instructor_relationships():
@@ -96,15 +107,18 @@ def populate_course_instructor_relationships():
     instructor_yan = Instructor.objects.get(first_name='Yan')
     instructor_joy = Instructor.objects.get(first_name='Joy')
     instructor_peter = Instructor.objects.get(first_name='Peter')
+    instructor_daniel = Instructor.objects.get(first_name="Daniel")
 
     # Get related courses
     course_cloud_app = Course.objects.get(name__contains='Cloud')
     course_python = Course.objects.get(name__contains='Python')
+    course_data_base = Course.objects.get(name__contains = "Databases")
 
     # Add instructors to courses
     course_cloud_app.instructors.add(instructor_yan)
     course_cloud_app.instructors.add(instructor_joy)
     course_python.instructors.add(instructor_peter)
+    course_data_base.instructors.add(instructor_daniel)
     
     print("Course-instructor relationships saved... ")
 
@@ -114,6 +128,8 @@ def populate_course_enrollment_relationships():
     # Get related courses
     course_cloud_app = Course.objects.get(name__contains='Cloud')
     course_python = Course.objects.get(name__contains='Python')
+    course_data_base = Course.objects.get(name__contains = "Databases")
+
 
     # Get related learners
     learner_james = Learner.objects.get(first_name='James')
@@ -121,6 +137,7 @@ def populate_course_enrollment_relationships():
     learner_david = Learner.objects.get(first_name='David')
     learner_john = Learner.objects.get(first_name='John')
     learner_robert = Learner.objects.get(first_name='Robert')
+    learner_rocio = Learner.objects.get(first_name="Rocio")
 
     # Add enrollments
     james_cloud = Enrollment.objects.create(learner=learner_james, date_enrolled=date(2020, 8, 1),
@@ -138,6 +155,9 @@ def populate_course_enrollment_relationships():
     robert_python = Enrollment.objects.create(learner=learner_robert, date_enrolled=date(2020, 9, 2),
                                               course=course_python, mode='honor')
     robert_python.save()
+    
+    rocio_database = Enrollment.objects.create(learner=learner_rocio, course=course_data_base, date_enrolled=date(2021, 10, 2), mode="audit")
+    rocio_database.save()
     print("Course-learner relationships saved... ")
 
 
